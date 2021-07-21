@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 
 const mysqlConnection = require('../config/dabatase');
 
-router.post('/addAdmin', (req, res) => {
+router.post('/addAdmin', async (req, res) => {
     const { email, password } = req.body;
     const queryAdd = 'INSERT INTO admin (`email`, `password`) VALUES (?, ?);';
-
-    mysqlConnection.query(queryAdd, [email, password] ,(err, rows, fields) => {
+    const hash = await bcrypt.hash(password, 10);
+    console.log(password);
+    mysqlConnection.query(queryAdd, [email, hash] ,(err, rows, fields) => {
         if(!err){
             res.json({Status: 'Admin created successfully'});
         }else{

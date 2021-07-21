@@ -1,31 +1,55 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const mysqlConnection = require('../config/dabatase');
 
-router.post('/addClient', (req, res) => {
+router.post('/addClient', async (req, res) => {
+
     const { nombreCompleto, email, password } = req.body;
     const queryAdd = 'INSERT INTO cliente (`nombreCompleto`, `email`, `password`) VALUES (?, ?, ?);';
-
-    mysqlConnection.query(queryAdd, [nombreCompleto, email, password] ,(err, rows, fields) => {
-        if(!err){
-            res.json({Status: 'Client created successfully'});
-        }else{
+    const hash = await bcrypt.hash(password, 10);
+    console.log(password);
+    mysqlConnection.query(queryAdd, [nombreCompleto, email, hash], (err, rows, fields) => {
+        if (!err) {
+            res.json({ Status: 'Client created successfully' });
+        } else {
             console.log(err);
         }
     });
+
+
 })
 
 router.get('/getAllClients', (req, res) => {
     const queryGetClients = 'SELECT * FROM cliente';
-    mysqlConnection.query(queryGetClients, (err, rows, fields)=>{
-        if(!err){
+    mysqlConnection.query(queryGetClients, (err, rows, fields) => {
+        if (!err) {
             res.json(rows);
-        }else{
+        } else {
             console.log(err);
         }
     });
 })
 
+router.post('/loginClient', async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const queryGet = 'SELECT * FROM cliente WHERE email=? AND password=?'
+    mysqlConnection.query(queryGet, [email, password], async (err, rows, fields) => {
+        if (!err) {
+            //const l = (rows[0].password);
+            // console.log(l);
+            // const l = rows[0].password;
+            // console.log(l);
+            
+            console.log(rows);
+        } else {
+            console.log(err);
+        }
+    })
+
+})
 
 module.exports = router;
