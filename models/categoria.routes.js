@@ -15,6 +15,19 @@ router.post('/addCategory', (req, res) => {
         }
     });
 })
+router.put('/updateCategoryById/:id', (req, res) => {
+    const { nombre } = req.body;
+    const idCategory = req.params.id;
+    const queryUpdate = 'UPDATE categoria SET `nombre` = ? WHERE `idcategoria` = ?;';
 
+    mysqlConnection.query(queryUpdate, [nombre, idCategory], (err, rows, fields)=>{
+        if(!err){
+            res.status(200).json({ Status: 'Category updated successfully' });
+        }else{
+            console.log(req.params.id);
+            console.log(err);
+        }
+    });
+})
 
 module.exports = router;

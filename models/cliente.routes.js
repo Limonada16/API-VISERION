@@ -45,7 +45,7 @@ router.post('/loginClient', async (req, res) => {
                 if(result){
                     res.json({ Status: 'Login successfully' });
                 }else{
-                    res.json({ Status: 'You are not a client' });
+                    res.status(401).json({ Status: 'You are not a client' });
                 }
             });
             

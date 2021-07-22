@@ -18,5 +18,27 @@ router.post('/addAdmin', async (req, res) => {
     });
 })
 
+router.post('/loginAdmin', async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const queryGet = 'SELECT password FROM admin WHERE email=?'
+    mysqlConnection.query(queryGet, [email], async (err, rows, fields) => {
+        if (!err) {
+            const l = rows[0].password;
+            bcrypt.compare(password, l, function(err, result) {
+                if(result){
+                    res.json({ Status: 'Login successfully' });
+                }else{
+                    res.status(401).json({ Status: 'You are not an admin' });
+                }
+            });
+            
+        } else {
+            console.log(err);
+        }
+    })
+
+})
+
 
 module.exports = router;
