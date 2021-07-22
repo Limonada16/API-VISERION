@@ -10,7 +10,7 @@ router.post('/addProduct', (req, res) => {
 
     mysqlConnection.query(queryAdd, [nombre,idcategoria,precio,stock,marca,img] ,(err, rows, fields) => {
         if(!err){
-            res.json({Status: 'Product created successfully'});
+            res.status(201).json({ Status: 'Product created successfully' });
         }else{
             console.log(err);
         }
@@ -47,7 +47,7 @@ router.put('/updateProductById/:id', (req, res) => {
 
     mysqlConnection.query(queryUpdate, [nombre, idcategoria, precio, stock, marca, img, idProduct], (err, rows, fields)=>{
         if(!err){
-            res.json({Status: 'Product Updated successfully'});
+            res.status(200).json({ Status: 'Product updated successfully' });
         }else{
             console.log(req.params.id);
             console.log(err);

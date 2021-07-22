@@ -9,7 +9,7 @@ router.post('/addCategory', (req, res) => {
 
     mysqlConnection.query(queryAdd, [nombre] ,(err, rows, fields) => {
         if(!err){
-            res.json({Status: 'Category created successfully'});
+            res.status(201).json({ Status: 'Category created successfully' });
         }else{
             console.log(err);
         }

@@ -11,7 +11,7 @@ router.post('/addAdmin', async (req, res) => {
     console.log(password);
     mysqlConnection.query(queryAdd, [email, hash] ,(err, rows, fields) => {
         if(!err){
-            res.json({Status: 'Admin created successfully'});
+            res.status(201).json({ Status: 'Admin Account created successfully' });
         }else{
             console.log(err);
         }
