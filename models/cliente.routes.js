@@ -43,7 +43,7 @@ router.post('/loginClient', async (req, res) => {
             console.log(l);
             bcrypt.compare(password, l, function(err, result) {
                 if(result){
-                    res.json({ Status: 'Login successfully' });
+                    res.status(200).json({ Status: 'Login successfully' });
                 }else{
                     res.status(401).json({ Status: 'You are not a client' });
                 }

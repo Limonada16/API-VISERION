@@ -14,6 +14,8 @@ app.use(require('./models/cliente.routes'));
 app.use(require('./models/categoria.routes'));
 //Routes Product
 app.use(require('./models/producto.routes'));
+//Routes Cart
+app.use(require('./models/carrito.routes'));
 
 //Starting teh server
 app.listen(app.get('port'), ()=>{ 
